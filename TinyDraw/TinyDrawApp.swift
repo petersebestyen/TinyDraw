@@ -12,6 +12,12 @@ struct TinyDrawApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(Drawing())
         }
     }
+}
+
+#Preview {
+    ContentView()
+        .environmentObject(Drawing())
 }

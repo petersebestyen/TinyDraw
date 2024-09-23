@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var drawing: Drawing
+    @Environment(\.undoManager) var undoManager
+    
     @State private var showingBrushOptions = false
 
     var body: some View {
@@ -59,6 +61,20 @@ struct ContentView: View {
                         .padding()
                     }
                 }
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button(action: drawing.undo) {
+                        Label("Undo", systemImage: "arrow.uturn.backward")
+                    }
+                    .disabled(undoManager?.canUndo == false)
+                    
+                    Button(action: drawing.redo) {
+                        Label("Redo", systemImage: "arrow.uturn.forward")
+                    }
+                    .disabled(undoManager?.canRedo == false)
+                }
+            }
+            .onAppear {
+                drawing.undoManager = undoManager
             }
             .ignoresSafeArea()
             .navigationTitle("TiniDraw")
